@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <link rel="stylesheet" href="style.css">
+        <title>Die Farbik Chemnitz</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
+        
+    </head>
+
+<body style="overflow: hidden">
+   
+    <script src="js/keyvisual2.js"></script>
+
+    <div style="width: 100vw">
+        <img style="position: absolute; top: 10px; left: 10px; height: 60px" src="/img/DFC_Wortmarke_Black.png">
+        <p class="navElement" style="position: absolute; right: 20px">Entwurf 2</p>
+        <p class="navElement" style="position: absolute; right: 140px">Entwurf 1</p>
+    </div>  
+
+    <div class="cta-Button">
+     <button id="toggle" class="toggle" style="display: flex; align-items: center;" onclick="myFunction()">
+        <img id="plus" width="38px" height="38px" src="img/PLUS.svg">
+     </button>
+     <p id="label" class="label roundStyle">be part of it!</p>
+     
+     <input id="myInput" class="input roundStyle" style="display: none" placeholder="join with email address">
+     <button id="join" class="join roundStyle" style="display: none; background-color: #C4FED1;" onclick="myJoinFunction()">Join</button>
+    </div>
+
+</body>
+</html>
