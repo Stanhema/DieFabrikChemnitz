@@ -8,13 +8,12 @@ let gridSize = 150;
 let gridWidth, gridHeight;
 
 let clicked = false;
-
-
 let circleSize = 10;
-let circle1X, circle1Y, circle2X, circle2Y;
-let target1X, target1Y, target2X, target2Y;
 
 let moveSpeed = 0.04;
+
+let names = ["Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Julie", "Lara"];
+let currentName = "";
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -57,6 +56,8 @@ function setup() {
   circle7Y = floor(random(gridHeight)) * gridSize + gridSize / 2;
   target7X = circle7X;
   target7Y = circle7Y;
+
+  setTimeout(showRandomName, 5000); // show a random name after 5 seconds
   
 }
 
@@ -64,14 +65,8 @@ function draw() {
   background(255);
 
 
-  //setInterval(function() {
-  //  fill("black")
-  //  circle(circle1X, circle1Y, circleSize);
-  //  textSize(20); 
-  //  textAlign(LEFT, TOP)
-  //  text("Tim joined", circle1X + 20, circle1Y )
-  //  }, 2000);
-    
+  
+  
   //Grid Helper
   //stroke(0);
   //strokeWeight(1);
@@ -90,7 +85,7 @@ function draw() {
   }
 
   stroke(0);
-  strokeWeight(2);
+  strokeWeight(3);
 
   beginShape(TESS);
     vertex(circle1X, circle1Y);
@@ -103,8 +98,7 @@ function draw() {
     vertex(circle7X, circle7Y);
   endShape(CLOSE);
   
-
-    
+  
 
   //CIRCLES
   //circle(circle1X, circle1Y, circleSize);
@@ -187,6 +181,12 @@ function draw() {
     blendMode(NORMAL);
   }
 
+  
+  noStroke();
+  textSize(20); 
+  textAlign(LEFT, TOP)
+  text(currentName, circle1X + 5, circle1Y);
+
  
 
   textSize(200);
@@ -199,6 +199,8 @@ function draw() {
   var r = document.querySelector(':root');
   r.style.setProperty('--myMouseY', (mouseY) + String("px"));
   r.style.setProperty('--myMouseX', (mouseX) + String("px"));
+
+  
 
 }
 
@@ -235,8 +237,8 @@ function myJoinFunction() {
   clicked = false;
   document.getElementById("myInput").style.display =  "none";   
   document.getElementById("join").style.display =  "none"; 
-  document.getElementById("close").style.display =  "none"; 
-  //document.getElementById("welcome").style.display =  "block"; 
+  document.getElementById("toggle").style.display =  "none"; 
+  document.getElementById("welcome").style.display =  "block"; 
   blendMode(NORMAL);
   loop();
 }
@@ -244,4 +246,15 @@ function myJoinFunction() {
 function windowResized(){
   resizeCanvas(windowWidth, windowHeight);
     
+}
+
+
+function showRandomName() {
+  currentName = names[Math.floor(Math.random() * names.length)] + String(" joined."); // pick a random name from the array
+  setTimeout(hideName, 5000); // hide the name after 5 seconds
+}
+
+function hideName() {
+  currentName = ""; // clear the current name
+  setTimeout(showRandomName, 5000); // show a new random name after 5 seconds
 }
