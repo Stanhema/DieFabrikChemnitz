@@ -1,81 +1,88 @@
+//FONT
 let font;
-
 function preload() {
     DegularDisplay = loadFont("fonts/DegularDisplay-Regular.otf");
     DegularText = loadFont("fonts/DegularText-Medium.otf");
 }
-let gridSize = 150;
+
+//GRID
 let gridWidth, gridHeight;
+let segments = 9;
+let segmentSizeX;
+let segmentSizeY;
 
+//INTERACTION
 let clicked = false;
-let circleSize = 10;
-
 let moveSpeed = 0.04;
+let myMouseX;
+let myMouseY;
 
+//NAMES
 let names = ["Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Julie", "Lara"];
 let currentName = "";
 
+//POINTS
+let pointX = [];
+let pointY = [];
+let targetX = [];
+let targetY = [];
+
 function setup() {
+
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
-  
-  gridWidth = floor(width / gridSize);
-  gridHeight = floor(height / gridSize);
 
-  circle1X = floor(random(gridWidth)) * gridSize + gridSize / 2;
-  circle1Y = floor(random(gridHeight)) * gridSize + gridSize / 2;
-  target1X = circle1X;
-  target1Y = circle1Y;
+  gridMarginX = 20; 
+  gridMarginTop = 80;
+  gridMarginBottom = 20;
+  segmentSizeX = (windowWidth-gridMarginX)/segments;
+  segmentSizeY = (windowHeight-gridMarginTop-gridMarginBottom)/segments;
 
-  circle2X = floor(random(gridWidth)) * gridSize + gridSize / 2;
-  circle2Y = floor(random(gridHeight)) * gridSize + gridSize / 2;
-  target2X = circle2X;
-  target2Y = circle2Y;
+  gridWidth = floor((width-gridMarginX) / segmentSizeX) +1; //8
+  gridHeight = floor((height-gridMarginTop-gridMarginBottom) / segmentSizeX); //4
 
-  circle3X = floor(random(gridWidth)) * gridSize + gridSize / 2;
-  circle3Y = floor(random(gridHeight)) * gridSize + gridSize / 2;
-  target3X = circle3X;
-  target3Y = circle3Y;
+  //INITIAL POINTS FOR SHAPE
 
-  circle4X = floor(random(gridWidth)) * gridSize + gridSize / 2;
-  circle4Y = floor(random(gridHeight)) * gridSize + gridSize / 2;
-  target4X = circle4X;
-  target4Y = circle4Y;
+  for (i = 1; i < 8; i++) {
+    pointX[i] = floor(random(gridWidth/10*3)) * segmentSizeX + gridMarginX/2;
+    pointY[i] = floor(random(gridWidth/10*3)) * segmentSizeY + gridMarginTop;
+    targetX[i] = pointX[i];
+    targetY[i] = pointY[i];
+  }
 
-  circle5X = floor(random(gridWidth)) * gridSize + gridSize / 2;
-  circle5Y = floor(random(gridHeight)) * gridSize + gridSize / 2;
-  target5X = circle5X;
-  target5Y = circle5Y;
-
-  circle6X = floor(random(gridWidth)) * gridSize + gridSize / 2;
-  circle6Y = floor(random(gridHeight)) * gridSize + gridSize / 2;
-  target6X = circle6X;
-  target6Y = circle6Y;
-
-  circle7X = floor(random(gridWidth)) * gridSize + gridSize / 2;
-  circle7Y = floor(random(gridHeight)) * gridSize + gridSize / 2;
-  target7X = circle7X;
-  target7Y = circle7Y;
-
-  setTimeout(showRandomName, 5000); // show a random name after 5 seconds
-  
+  setTimeout(showRandomName, 5000); // show a random name after 5 seconds  
 }
 
 function draw() {
   background(255);
 
-
+  //Detach Mouse interaction when outside certain area
+  let prevMouseX = myMouseX;
+  let prevMouseY = myMouseY;
   
+  if (mouseX < gridMarginX || mouseY < gridMarginTop || mouseX > width-400 || mouseY > height - gridMarginBottom) {
+    // if the current position is outside the canvas bounds, don't update the current position
+    myMouseX = prevMouseX;
+    myMouseY = prevMouseY;
+  } else {
+    // otherwise, update the previous position to the current position
+    myMouseX = mouseX;
+    myMouseY = mouseY;
+  }   
   
   //Grid Helper
-  //stroke(0);
-  //strokeWeight(1);
-  //for (let x = gridSize / 2; x <= width; x += gridSize) {
-  //  line(x, 0, x, height);
- // }
- // for (let y = gridSize / 2; y <= height; y += gridSize) {
-  //  line(0, y, width, y);
- // }
+  stroke(0);
+  strokeWeight(1);
+
+  //Verticals |
+  for (let x = gridMarginX/2; x <=  width-gridMarginX/2; x += segmentSizeX) {
+    line(x, gridMarginTop, x, height-gridMarginX);
+  }
+
+  //Horizontals _
+  for (let y = gridMarginTop; y <=  height-gridMarginBottom; y += segmentSizeY) {
+    line(gridMarginX/2, y, width-gridMarginX/2, y);
+  }
   
   //Shape color
   if (clicked) {
@@ -86,92 +93,146 @@ function draw() {
 
   stroke(0);
   strokeWeight(3);
-
-  beginShape(TESS);
-    vertex(circle1X, circle1Y);
-    vertex(circle2X, circle2Y);
-    vertex(circle3X, circle3Y);
-    vertex(circle4X, circle4Y);
-    vertex(circle5X, circle5Y);
-    vertex(mouseX, mouseY);
-    vertex(circle6X, circle6Y);
-    vertex(circle7X, circle7Y);
-  endShape(CLOSE);
-  
-  
-
-  //CIRCLES
-  //circle(circle1X, circle1Y, circleSize);
-  //circle(circle2X, circle2Y, circleSize);
-  //circle(circle3X, circle3Y, circleSize);
-  //circle(circle4X, circle4Y, circleSize);
-  //circle(circle5X, circle5Y, circleSize);
-  //circle(circle6X, circle6Y, circleSize);
-  //circle(circle7X, circle7Y, circleSize);
   blendMode(NORMAL);
 
+  point0 = createVector(myMouseX, myMouseY);
 
-  if (dist(circle1X, circle1Y, target1X, target1Y) < 1) {
-    target1X = floor(random(gridWidth/10*3)) * gridSize + gridSize / 2;
-    target1Y = floor(random(gridHeight/10*3)) * gridSize + gridSize / 2;
+  point1 = createVector(pointX[1], pointY[1]);
+  point2 = createVector(pointX[2], pointY[2]);
+  point3 = createVector(pointX[3], pointY[3]);
+  point4 = createVector(pointX[4], pointY[4]);
+  point5 = createVector(pointX[5], pointY[5]);
+  point6 = createVector(pointX[6], pointY[6]);
+  point7 = createVector(pointX[7], pointY[7]);
+
+  //ANIMATION AND INTERSECTION WITH MOUSE - LOGIC
+
+  if (dist(pointX[1], pointY[1], targetX[1], targetY[1]) < 1) {
+    targetX[1] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
+    targetY[1] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
+  } else if (intersect(point0, point5, point1, point2)) {
+    fill("green");
+    //targetX[1] = floor(random(segmentSizeX, myMouseX - segmentSizeX));
+    //targetY[1] = floor(random(segmentSizeX, myMouseY - segmentSizeX)); 
+    pointX[1] += (targetX[1] - pointX[1]) * moveSpeed;
+    pointY[1] += (targetY[1] - pointY[1]) * moveSpeed;
   } else {
-    circle1X += (target1X - circle1X) * moveSpeed;
-    circle1Y += (target1Y - circle1Y) * moveSpeed;
+    pointX[1] += (targetX[1] - pointX[1]) * moveSpeed;
+    pointY[1] += (targetY[1] - pointY[1]) * moveSpeed;
   }
 
-  if (dist(circle2X, circle2Y, target2X, target2Y) < 1) {
-    target2X = floor(random(gridWidth/10*3, gridWidth/10*6)) * gridSize + gridSize / 2;
-    target2Y = floor(random(gridHeight/10*2)) * gridSize + gridSize / 2;
+  if (dist(pointX[2], pointY[2], targetX[2], targetY[2]) < 1) {
+    targetX[2] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeX + gridMarginX/2;
+    targetY[2] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
+  } else if (intersect(point0, point5, point2, point3)) {
+    fill("blue");
+    //targetX[2] = floor(random(segmentSizeX, myMouseX - segmentSizeX));
+    //targetY[2] = floor(random(segmentSizeX, myMouseY - segmentSizeX));
+    pointX[2] += (targetX[2] - pointX[2]) * moveSpeed;
+    pointY[2] += (targetY[2] - pointY[2]) * moveSpeed;
   } else {
-    circle2X += (target2X - circle2X) * moveSpeed;
-    circle2Y += (target2Y - circle2Y) * moveSpeed;
+    pointX[2] += (targetX[2] - pointX[2]) * moveSpeed;
+    pointY[2] += (targetY[2] - pointY[2]) * moveSpeed;
   }
 
-  if (dist(circle3X, circle3Y, target3X, target3Y) < 1) {
-    target3X = floor(random(gridWidth/10*6, gridWidth)) * gridSize + gridSize / 2;
-    target3Y = floor(random(gridHeight/10*2)) * gridSize + gridSize / 2;
+  if (dist(pointX[3], pointY[3], targetX[3], targetY[3]) < 1) {
+    targetX[3] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX + gridMarginX/2;
+    targetY[3] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
+  } else if (intersect(point0, point5, point3, point4)) {
+    fill("red");
+    //targetX[3] = floor(random(segmentSizeX, myMouseX - segmentSizeX));
+    //targetY[3] = floor(random(segmentSizeX, myMouseY - segmentSizeX));
+    pointX[3] += (targetX[3] - pointX[3]) * moveSpeed;
+    pointY[3] += (targetY[3] - pointY[3]) * moveSpeed;
   } else {
-    circle3X += (target3X - circle3X) * moveSpeed;
-    circle3Y += (target3Y - circle3Y) * moveSpeed;
+    pointX[3] += (targetX[3] - pointX[3]) * moveSpeed;
+    pointY[3] += (targetY[3] - pointY[3]) * moveSpeed;
   }
 
-  if (dist(circle4X, circle4Y, target4X, target4Y) < 1) {
-    target4X = floor(random(gridWidth/10*6, gridWidth)) * gridSize + gridSize / 2;
-    target4Y = floor(random(gridHeight/10*3, gridHeight/10*6)) * gridSize + gridSize / 2;
+  if (dist(pointX[4], pointY[4], targetX[4], targetY[4]) < 1) {
+    targetX[4] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX + gridMarginX/2;
+    targetY[4] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY + gridMarginTop;
+  } else if (intersect(point6, point0, point4, point5)) {
+    fill("pink");
+    //targetX[4] = floor(random(segmentSizeX, myMouseX - segmentSizeX));
+    //targetY[4] = floor(random(segmentSizeX, myMouseY - segmentSizeX));
+    pointX[4] += (targetX[4] - pointX[4]) * moveSpeed;
+    pointY[4] += (targetY[4] - pointY[4]) * moveSpeed;
   } else {
-    circle4X += (target4X - circle4X) * moveSpeed;
-    circle4Y += (target4Y - circle4Y) * moveSpeed;
+    pointX[4] += (targetX[4] - pointX[4]) * moveSpeed;
+    pointY[4] += (targetY[4] - pointY[4]) * moveSpeed;
   }
 
-  if (dist(circle5X, circle5Y, target5X, target5Y) < 1) {
-    target5X = floor(random(gridWidth/10*6, gridWidth)) * gridSize + gridSize / 2;
-    target5Y = floor(random(gridHeight/10*6, gridHeight)) * gridSize + gridSize / 2;
+  if (dist(pointX[5], pointY[5], targetX[5], targetY[5]) < 1) {
+    targetX[5] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX + gridMarginX/2;
+    targetY[5] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY + gridMarginTop;
   } else {
-    circle5X += (target5X - circle5X) * moveSpeed;
-    circle5Y += (target5Y - circle5Y) * moveSpeed;
+    pointX[5] += (targetX[5] - pointX[5]) * moveSpeed;
+    pointY[5] += (targetY[5] - pointY[5]) * moveSpeed;
   }
+
+  if (dist(pointX[6], pointY[6], targetX[6], targetY[6]) < 1) {
+    targetX[6] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
+    targetY[6] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY + gridMarginTop;
+  } else if (intersect(point0, point5, point6, point7)) {
+    fill("grey");
+    //pointX[7] += (targetX[7] - pointX[7]) * moveSpeed;
+    //pointY[7] += (targetY[7] - pointY[7]) * moveSpeed;
+  }  else {
+    pointX[6] += (targetX[6] - pointX[6]) * moveSpeed;
+    pointY[6] += (targetY[6] - pointY[6]) * moveSpeed;
+  }
+
+  if (dist(pointX[7], pointY[7], targetX[7], targetY[7]) < 1) {
+    targetX[7] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
+    targetY[7] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY + gridMarginTop;
+  } else if (intersect(point0, point5, point7, point1)) {
+    fill("orange");
+    pointX[7] += (targetX[7] - pointX[7]) * moveSpeed;
+    pointY[7] += (targetY[7] - pointY[7]) * moveSpeed;
+    //targetX[7] = floor(random(segmentSizeX, myMouseX - segmentSizeX));
+    //targetY[7] = floor(random(segmentSizeX, myMouseY - segmentSizeX));
+  } else {
+    pointX[7] += (targetX[7] - pointX[7]) * moveSpeed;
+    pointY[7] += (targetY[7] - pointY[7]) * moveSpeed;
+  }
+
+  beginShape();
+    vertex(pointX[1], pointY[1]);
+    vertex(pointX[2], pointY[2]);
+    vertex(pointX[3], pointY[3]);
+    vertex(pointX[4], pointY[4]);
+    vertex(pointX[5], pointY[5]);
+    vertex(myMouseX, myMouseY);
+    vertex(pointX[6], pointY[6]);
+    vertex(pointX[7], pointY[7]);
+  endShape(CLOSE);
+
+
+  //HELPER LINES FOR INTERSECTION LOGIC
+  stroke("green");
+  line(pointX[1], pointY[1], pointX[2], pointY[2]);
+
+  stroke("blue");
+  line(pointX[2], pointY[2], pointX[3], pointY[3]);
+
+  stroke("red");
+  line(pointX[3], pointY[3], pointX[4], pointY[4]);
   
+  stroke("pink");
+  line(pointX[4], pointY[4], pointX[5], pointY[5]);
+  
+  stroke("grey");
+  line(pointX[6], pointY[6], pointX[7], pointY[7]);
 
-  if (dist(circle6X, circle6Y, target6X, target6Y) < 1) {
-    target6X = floor(random(gridWidth/10*3)) * gridSize + gridSize / 2;
-    target6Y = floor(random(gridHeight/10*6, gridHeight)) * gridSize + gridSize / 2;
-  } else {
-    circle6X += (target6X - circle6X) * moveSpeed;
-    circle6Y += (target6Y - circle6Y) * moveSpeed;
-  }
-
- 
-  if (dist(circle7X, circle7Y, target7X, target7Y) < 1) {
-    target7X = floor(random(gridWidth/10*3)) * gridSize + gridSize / 2;
-    target7Y = floor(random(gridHeight/10*3, gridHeight/10*6)) * gridSize + gridSize / 2;
-  } else {
-    circle7X += (target7X - circle7X) * moveSpeed;
-    circle7Y += (target7Y - circle7Y) * moveSpeed;
-  }
-
-
+  stroke("orange");
+  line(pointX[7], pointY[7], pointX[1], pointY[1]);
     
- 
+  
+  stroke("black");
+
+
+  //TEXT
   noStroke();
   if (clicked) {
     fill(255); 
@@ -181,27 +242,22 @@ function draw() {
     blendMode(NORMAL);
   }
 
-  
   noStroke();
   textSize(20); 
   textAlign(LEFT, TOP)
-  text(currentName, circle1X + 5, circle1Y);
+  text(currentName, pointX[1] + 5, pointY[1]);
 
- 
-
-  textSize(200);
+  textSize(windowWidth/7);
   textFont(DegularText);
   textAlign(RIGHT, BOTTOM)
-  text("Raum", width-20, height-280)
-  text("der", width-20, height-120)
-  text("Veränderung", width-20, height)
+  text("Raum", width*0.96, height-2*windowWidth/10);
+  text("der", width*0.96, height-windowWidth/11);
+  text("Veränderung", width*0.96, height);
 
+  //MOUSE POSITION FOR CTA POSITION IN HTML/CSS
   var r = document.querySelector(':root');
-  r.style.setProperty('--myMouseY', (mouseY) + String("px"));
-  r.style.setProperty('--myMouseX', (mouseX) + String("px"));
-
-  
-
+  r.style.setProperty('--myMouseY', (myMouseY) + String("px"));
+  r.style.setProperty('--myMouseX', (myMouseX) + String("px"));
 }
 
 function myFunction() { 
@@ -245,7 +301,8 @@ function myJoinFunction() {
 
 function windowResized(){
   resizeCanvas(windowWidth, windowHeight);
-    
+  segmentSizeX = (windowWidth-gridMarginX)/segments;
+  segmentSizeY = (windowHeight-gridMarginTop-gridMarginBottom)/segments;
 }
 
 
@@ -257,4 +314,16 @@ function showRandomName() {
 function hideName() {
   currentName = ""; // clear the current name
   setTimeout(showRandomName, 5000); // show a new random name after 5 seconds
+}
+
+
+function intersect(a1, a2, b1, b2) {
+  // Check if line segment a intersects line segment b
+  let den = (b2.y-b1.y)*(a2.x-a1.x) - (b2.x-b1.x)*(a2.y-a1.y);
+  if (den == 0) {
+    return false;
+  }
+  let ua = ((b2.x-b1.x)*(a1.y-b1.y) - (b2.y-b1.y)*(a1.x-b1.x)) / den;
+  let ub = ((a2.x-a1.x)*(a1.y-b1.y) - (a2.y-a1.y)*(a1.x-b1.x)) / den;
+  return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
 }
