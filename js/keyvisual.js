@@ -13,7 +13,16 @@ let segmentSizeY;
 
 //INTERACTION
 let clicked = false;
-let moveSpeed = 0.04;
+let intersected1 = false;
+let intersected2 = false;
+let intersected3 = false;
+let intersected4 = false;
+let intersected5 = false;
+let intersected6 = false;
+let intersected7 = false;
+let moveSpeed = 0.2;
+let slowSpeed = 0.02;
+let superSpeed = 0.4;
 let myMouseX;
 let myMouseY;
 
@@ -31,6 +40,10 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
+
+  //Start position of mouse should be in the center
+  myMouseX = windowWidth/2; 
+  myMouseY = windowHeight/2;
 
   gridMarginX = 20; 
   gridMarginTop = 80;
@@ -60,7 +73,7 @@ function draw() {
   let prevMouseX = myMouseX;
   let prevMouseY = myMouseY;
   
-  if (mouseX < gridMarginX || mouseY < gridMarginTop || mouseX > width-400 || mouseY > height - gridMarginBottom) {
+  if (mouseX < gridMarginX || mouseY < gridMarginTop || mouseX > width-gridMarginX || mouseY > height - gridMarginBottom) {
     // if the current position is outside the canvas bounds, don't update the current position
     myMouseX = prevMouseX;
     myMouseY = prevMouseY;
@@ -75,14 +88,14 @@ function draw() {
   strokeWeight(1);
 
   //Verticals |
-  for (let x = gridMarginX/2; x <=  width-gridMarginX/2; x += segmentSizeX) {
-    line(x, gridMarginTop, x, height-gridMarginX);
-  }
+  //for (let x = gridMarginX/2; x <=  width-gridMarginX/2; x += segmentSizeX) {
+  //  line(x, gridMarginTop, x, height-gridMarginX);
+  //}
 
   //Horizontals _
-  for (let y = gridMarginTop; y <=  height-gridMarginBottom; y += segmentSizeY) {
-    line(gridMarginX/2, y, width-gridMarginX/2, y);
-  }
+  //for (let y = gridMarginTop; y <=  height-gridMarginBottom; y += segmentSizeY) {
+  //  line(gridMarginX/2, y, width-gridMarginX/2, y);
+  //}
   
   //Shape color
   if (clicked) {
@@ -93,30 +106,29 @@ function draw() {
 
   stroke(0);
   strokeWeight(3);
-  blendMode(NORMAL);
+  blendMode(BLEND);
 
-  point0 = createVector(myMouseX, myMouseY);
+  let point0 = createVector(myMouseX, myMouseY);
 
-  point1 = createVector(pointX[1], pointY[1]);
-  point2 = createVector(pointX[2], pointY[2]);
-  point3 = createVector(pointX[3], pointY[3]);
-  point4 = createVector(pointX[4], pointY[4]);
-  point5 = createVector(pointX[5], pointY[5]);
-  point6 = createVector(pointX[6], pointY[6]);
-  point7 = createVector(pointX[7], pointY[7]);
+  let point1 = createVector(pointX[1], pointY[1]);
+  let point2 = createVector(pointX[2], pointY[2]);
+  let point3 = createVector(pointX[3], pointY[3]);
+  let point4 = createVector(pointX[4], pointY[4]);
+  let point5 = createVector(pointX[5], pointY[5]);
+  let point6 = createVector(pointX[6], pointY[6]);
+  let point7 = createVector(pointX[7], pointY[7]);
 
   //ANIMATION AND INTERSECTION WITH MOUSE - LOGIC
 
   if (dist(pointX[1], pointY[1], targetX[1], targetY[1]) < 1) {
     targetX[1] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
     targetY[1] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
-  } else if (intersect(point0, point5, point1, point2)) {
-    fill("green");
-    //targetX[1] = floor(random(segmentSizeX, myMouseX - segmentSizeX));
-    //targetY[1] = floor(random(segmentSizeX, myMouseY - segmentSizeX)); 
-    pointX[1] += (targetX[1] - pointX[1]) * moveSpeed;
-    pointY[1] += (targetY[1] - pointY[1]) * moveSpeed;
   } else {
+    if (intersected1 == true || intersected7 == true){
+      moveSpeed = superSpeed;
+    } else {
+      moveSpeed = slowSpeed;
+    }
     pointX[1] += (targetX[1] - pointX[1]) * moveSpeed;
     pointY[1] += (targetY[1] - pointY[1]) * moveSpeed;
   }
@@ -124,13 +136,12 @@ function draw() {
   if (dist(pointX[2], pointY[2], targetX[2], targetY[2]) < 1) {
     targetX[2] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeX + gridMarginX/2;
     targetY[2] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
-  } else if (intersect(point0, point5, point2, point3)) {
-    fill("blue");
-    //targetX[2] = floor(random(segmentSizeX, myMouseX - segmentSizeX));
-    //targetY[2] = floor(random(segmentSizeX, myMouseY - segmentSizeX));
-    pointX[2] += (targetX[2] - pointX[2]) * moveSpeed;
-    pointY[2] += (targetY[2] - pointY[2]) * moveSpeed;
   } else {
+    if (intersected1 == true || intersected2 == true){
+      moveSpeed = superSpeed;
+    } else {
+      moveSpeed = slowSpeed;
+    }
     pointX[2] += (targetX[2] - pointX[2]) * moveSpeed;
     pointY[2] += (targetY[2] - pointY[2]) * moveSpeed;
   }
@@ -138,13 +149,12 @@ function draw() {
   if (dist(pointX[3], pointY[3], targetX[3], targetY[3]) < 1) {
     targetX[3] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX + gridMarginX/2;
     targetY[3] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
-  } else if (intersect(point0, point5, point3, point4)) {
-    fill("red");
-    //targetX[3] = floor(random(segmentSizeX, myMouseX - segmentSizeX));
-    //targetY[3] = floor(random(segmentSizeX, myMouseY - segmentSizeX));
-    pointX[3] += (targetX[3] - pointX[3]) * moveSpeed;
-    pointY[3] += (targetY[3] - pointY[3]) * moveSpeed;
   } else {
+    if (intersected2 == true || intersected3 == true){
+      moveSpeed = superSpeed;
+    } else {
+      moveSpeed = slowSpeed;
+    }
     pointX[3] += (targetX[3] - pointX[3]) * moveSpeed;
     pointY[3] += (targetY[3] - pointY[3]) * moveSpeed;
   }
@@ -152,13 +162,12 @@ function draw() {
   if (dist(pointX[4], pointY[4], targetX[4], targetY[4]) < 1) {
     targetX[4] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX + gridMarginX/2;
     targetY[4] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY + gridMarginTop;
-  } else if (intersect(point6, point0, point4, point5)) {
-    fill("pink");
-    //targetX[4] = floor(random(segmentSizeX, myMouseX - segmentSizeX));
-    //targetY[4] = floor(random(segmentSizeX, myMouseY - segmentSizeX));
-    pointX[4] += (targetX[4] - pointX[4]) * moveSpeed;
-    pointY[4] += (targetY[4] - pointY[4]) * moveSpeed;
   } else {
+    if (intersected3 == true || intersected4 == true){
+      moveSpeed = superSpeed;
+    } else {
+      moveSpeed = slowSpeed;
+    }
     pointX[4] += (targetX[4] - pointX[4]) * moveSpeed;
     pointY[4] += (targetY[4] - pointY[4]) * moveSpeed;
   }
@@ -167,6 +176,11 @@ function draw() {
     targetX[5] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX + gridMarginX/2;
     targetY[5] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY + gridMarginTop;
   } else {
+    if (intersected4 == true || intersected5 == true){
+      moveSpeed = superSpeed;
+    } else {
+      moveSpeed = slowSpeed;
+    }
     pointX[5] += (targetX[5] - pointX[5]) * moveSpeed;
     pointY[5] += (targetY[5] - pointY[5]) * moveSpeed;
   }
@@ -174,11 +188,12 @@ function draw() {
   if (dist(pointX[6], pointY[6], targetX[6], targetY[6]) < 1) {
     targetX[6] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
     targetY[6] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY + gridMarginTop;
-  } else if (intersect(point0, point5, point6, point7)) {
-    fill("grey");
-    //pointX[7] += (targetX[7] - pointX[7]) * moveSpeed;
-    //pointY[7] += (targetY[7] - pointY[7]) * moveSpeed;
   }  else {
+    if (intersected6 == true){
+      moveSpeed = superSpeed;
+    } else {
+      moveSpeed = slowSpeed;
+    }
     pointX[6] += (targetX[6] - pointX[6]) * moveSpeed;
     pointY[6] += (targetY[6] - pointY[6]) * moveSpeed;
   }
@@ -186,17 +201,89 @@ function draw() {
   if (dist(pointX[7], pointY[7], targetX[7], targetY[7]) < 1) {
     targetX[7] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
     targetY[7] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY + gridMarginTop;
-  } else if (intersect(point0, point5, point7, point1)) {
-    fill("orange");
-    pointX[7] += (targetX[7] - pointX[7]) * moveSpeed;
-    pointY[7] += (targetY[7] - pointY[7]) * moveSpeed;
-    //targetX[7] = floor(random(segmentSizeX, myMouseX - segmentSizeX));
-    //targetY[7] = floor(random(segmentSizeX, myMouseY - segmentSizeX));
   } else {
+    if (intersected7 == true || intersected6 == true){
+      moveSpeed = superSpeed;
+    } else {
+      moveSpeed = slowSpeed;
+    }
     pointX[7] += (targetX[7] - pointX[7]) * moveSpeed;
     pointY[7] += (targetY[7] - pointY[7]) * moveSpeed;
   }
 
+  //INTERSECTION LOGIC
+
+  if (intersect(point0, point6, point1, point2) || intersect(point0, point5, point1, point2)) {
+    intersected1 = true;
+    targetY[1] = floor(random(myMouseY/segmentSizeY)) * segmentSizeY + gridMarginTop;
+    targetY[2] = floor(random(myMouseY/segmentSizeY)) * segmentSizeY + gridMarginTop;
+  } else {
+    intersected1 = false;
+  }
+
+  if (intersect(point0, point6, point2, point3) || intersect(point0, point5, point2, point3)) {
+    intersected2 = true;
+    targetY[2] = floor(random(myMouseY/segmentSizeY)) * segmentSizeY + gridMarginTop;
+    targetY[3] = floor(random(myMouseY/segmentSizeY)) * segmentSizeY + gridMarginTop;
+  } else {
+    intersected2 = false;
+  }
+
+  if (intersect(point0, point6, point3, point4) || intersect(point0, point5, point3, point4)) {
+    intersected3 = true;
+    targetX[3] = width-20;
+    targetY[3] = 80;
+    targetX[4] = width-20;
+  } else {
+    intersected3 = false;
+  }
+
+  if (intersect(point0, point6, point4, point5)) {
+    intersected4 = true;
+    targetX[4] = width-20;
+    
+    targetX[5] = width-20;
+    targetY[5] = height-20;
+   
+  } else {
+    intersected4 = false;
+  }
+
+  if (intersect(point0, point6, point4, point5)) {
+    intersected5 = true;
+    targetX[4] = width-20;
+    
+    targetX[5] = width-20;
+    targetY[5] = height-20;
+   
+  } else {
+    intersected5 = false;
+  }
+
+  if (intersect(point0, point5, point6, point7)) {
+    intersected6 = true;
+    targetX[6] = 20;
+    targetY[6] = height-20;
+    
+    targetX[7] = 20;
+  } else {
+    intersected6 = false;
+  }
+
+
+  if (intersect(point0, point6, point7, point1) || intersect(point0, point5, point7, point1)) {
+    intersected7 = true;
+    targetX[7] = 20;
+    
+    targetX[1] = 20;
+    targetY[1] = 80;
+  } else {
+    intersected7 = false;
+  }
+  
+
+
+  //DRAW SHAPE
   beginShape();
     vertex(pointX[1], pointY[1]);
     vertex(pointX[2], pointY[2]);
@@ -210,23 +297,23 @@ function draw() {
 
 
   //HELPER LINES FOR INTERSECTION LOGIC
-  stroke("green");
-  line(pointX[1], pointY[1], pointX[2], pointY[2]);
+  //stroke("green");
+  //line(pointX[1], pointY[1], pointX[2], pointY[2]);
 
-  stroke("blue");
-  line(pointX[2], pointY[2], pointX[3], pointY[3]);
+  //stroke("blue");
+  //line(pointX[2], pointY[2], pointX[3], pointY[3]);
 
-  stroke("red");
-  line(pointX[3], pointY[3], pointX[4], pointY[4]);
+  //stroke("red");
+  //line(pointX[3], pointY[3], pointX[4], pointY[4]);
   
-  stroke("pink");
-  line(pointX[4], pointY[4], pointX[5], pointY[5]);
+  //stroke("pink");
+  //line(pointX[4], pointY[4], pointX[5], pointY[5]);
   
-  stroke("grey");
-  line(pointX[6], pointY[6], pointX[7], pointY[7]);
+  //stroke("grey");
+  //line(pointX[6], pointY[6], pointX[7], pointY[7]);
 
-  stroke("orange");
-  line(pointX[7], pointY[7], pointX[1], pointY[1]);
+  //stroke("orange");
+  //line(pointX[7], pointY[7], pointX[1], pointY[1]);
     
   
   stroke("black");
@@ -239,7 +326,7 @@ function draw() {
     blendMode(DIFFERENCE);
   } else {
     fill(0);
-    blendMode(NORMAL);
+    blendMode(BLEND);
   }
 
   noStroke();
@@ -264,12 +351,12 @@ function myFunction() {
 
   const rotated = document.getElementById("plus");
 
-  if (clicked == false) {
+  if (clicked == false) { 
     clicked = true;
 
     document.getElementById("label").style.display =  "none";  
     document.getElementById("myInput").style.display =  "block";  
-    document.getElementById("join").style.display =  "block";  
+    document.getElementById("joinButton").style.display =  "block";  
     
     
     rotated.style.transform = 'rotate(45deg)';
@@ -281,7 +368,7 @@ function myFunction() {
 
     document.getElementById("label").style.display =  "block";  
     document.getElementById("myInput").style.display =  "none";   
-    document.getElementById("join").style.display =  "none"; 
+    document.getElementById("joinButton").style.display =  "none"; 
 
     rotated.style.transform = 'rotate(90deg)';
 
@@ -292,10 +379,10 @@ function myFunction() {
 function myJoinFunction() {
   clicked = false;
   document.getElementById("myInput").style.display =  "none";   
-  document.getElementById("join").style.display =  "none"; 
+  document.getElementById("joinButton").style.display =  "none"; 
   document.getElementById("toggle").style.display =  "none"; 
   document.getElementById("welcome").style.display =  "block"; 
-  blendMode(NORMAL);
+  blendMode(BLEND);
   loop();
 }
 
