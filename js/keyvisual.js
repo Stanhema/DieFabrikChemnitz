@@ -59,10 +59,23 @@ function setup() {
   gridHeight = floor((height-gridMarginTop-gridMarginBottom) / segmentSizeX); //4
 
   //INITIAL POINTS FOR SHAPE
+  pointX[1] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
+  pointY[1] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
+  pointX[2] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeX + gridMarginX/2;
+  pointY[2] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
+  pointX[3] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX + gridMarginX/2;
+  pointY[3] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
+  pointX[4] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX;
+  pointY[4] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY;
+  pointX[5] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX;
+  pointY[5] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY;
+  pointX[6] = floor(random(gridWidth/segments*3)) * segmentSizeX;
+  pointY[6] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY;
+  pointX[7] = floor(random(gridWidth/segments*3)) * segmentSizeX;
+  pointY[7] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY;
 
   for (i = 1; i < 8; i++) {
-    pointX[i] = floor(random(gridWidth/10*3)) * segmentSizeX + gridMarginX/2;
-    pointY[i] = floor(random(gridWidth/10*3)) * segmentSizeY + gridMarginTop;
+    
     targetX[i] = pointX[i];
     targetY[i] = pointY[i];
   }
