@@ -3,11 +3,9 @@
 <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 25.3 25.3" style="enable-background:new 0 0 25.3 25.3;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#010202;stroke:#FFFFFF;stroke-miterlimit:10;}
-	.st1{fill:#FFFFFF;}
+	.st0{fill:#A4FFA3;}
+	.st1{fill-rule:evenodd;clip-rule:evenodd;}
 </style>
-<circle class="st0" cx="12.6" cy="12.6" r="12.1"/>
-<g>
-	<path class="st1" d="M11.4,13.7H4.8v-2.3h6.6V4.7h2.5v6.7h6.6v2.3h-6.6v6.8h-2.5V13.7z"/>
-</g>
+<circle class="st0" cx="12.6" cy="12.6" r="12.6"/>
+<path class="st1" d="M12.2,13.1v7.1h0.8v-7.1h7.2v-0.8h-7.2V5.1h-0.8v7.2H5.1v0.8H12.2z"/>
 </svg>
