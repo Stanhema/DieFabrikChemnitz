@@ -31,7 +31,7 @@ const names = ['Ben', 'Leon', 'Lena', 'Emilia', 'Elias', 'Finn', 'Maximilian', '
 let currentName = "";
 let currentPosition;
 
-let attributes = ["be", "chill", "work", "meet", "dance", "eat", "create"];
+let attributes = ["be", "work", "meet", "create", "chill"];
 let currentAttribute = "be";
 
 //POINTS
@@ -363,9 +363,11 @@ function myFunction() {
     document.getElementById("label").style.display =  "none";  
     document.getElementById("myInput").style.display =  "block";  
     document.getElementById("joinButton").style.display =  "block";  
+    document.getElementById("plus").style.display =  "none";  
+    document.getElementById("face").style.display =  "block";  
     
     
-    rotated.style.transform = 'rotate(45deg)';
+    //rotated.style.transform = 'rotate(45deg)';
     
     noLoop();  
 
@@ -375,8 +377,10 @@ function myFunction() {
     document.getElementById("label").style.display =  "block";  
     document.getElementById("myInput").style.display =  "none";   
     document.getElementById("joinButton").style.display =  "none"; 
+    document.getElementById("plus").style.display =  "block";  
+    document.getElementById("face").style.display =  "none";  
 
-    rotated.style.transform = 'rotate(90deg)';
+    //rotated.style.transform = 'rotate(90deg)';
 
     loop();
     }
