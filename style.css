@@ -6,20 +6,31 @@
   }
 
 body {
-    font-family: Degular;
     margin: 0;
+    font-family: "DegularDisplay";
+    font-weight: normal;
 }
 
 @font-face {
-    font-family: Degular;
+    font-family: "DegularDisplay";
     src: url(/fonts/DegularDisplay-Regular.otf);
+    font-weight: normal;
   }
+
+@font-face {
+    font-family: "DegularDisplay";
+    src: url(/fonts/DegularDisplay-Semiboldd.otf);
+    font-style: bold;
+ }
   
 /* Navigation */
   
 .navElement {
+    font-family: "Degular", arial, sans-serif;;
+    font-weight: bold;
+    font-size: 25px;
     margin-left: 5px;
-    padding: 10px 20px;
+    padding: 3px 25px 6px 25px;
     border-style: solid;
     border:  2px solid;
     border-radius: 50px;
@@ -72,7 +83,10 @@ body {
 }
 
 .joinButton {
+    font-family: "Degular", arial, sans-serif;;
+    font-weight: bold;
     display: none; 
     color: black;
+    padding: 3px 25px 6px 25px;
     background-color: var(--dfcGreen);
 }

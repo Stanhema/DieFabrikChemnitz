@@ -2,6 +2,7 @@
 let font;
 function preload() {
     DegularDisplay = loadFont("fonts/DegularDisplay-Regular.otf");
+    DegularDisplaySemiB = loadFont("fonts/DegularDisplay-Semibold.otf");
     DegularText = loadFont("fonts/DegularText-Medium.otf");
 }
 
@@ -354,7 +355,7 @@ function draw() {
   
   text(currentName, pointX[currentPosition] + 5, pointY[currentPosition]);
 
-  textSize(windowWidth*windowHeight/4500);
+  textSize(windowWidth*windowHeight/5500);
   textFont(DegularDisplay);
   textAlign(RIGHT, BOTTOM)
   text("place to", width*0.98, height-windowWidth/7);
