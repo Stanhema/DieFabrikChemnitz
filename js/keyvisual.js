@@ -358,7 +358,7 @@ function draw() {
   textSize(windowWidth*windowHeight/5500);
   textFont(DegularDisplay);
   textAlign(RIGHT, BOTTOM)
-  text("place to", width*0.98, height-windowWidth/7);
+  text("place to", width*0.98, height-windowWidth/9);
   text(currentAttribute, width*0.98, height);
 
   //MOUSE POSITION FOR CTA POSITION IN HTML/CSS
