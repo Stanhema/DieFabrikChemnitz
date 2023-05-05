@@ -3,7 +3,6 @@ let font;
 function preload() {
     DegularDisplay = loadFont("fonts/DegularDisplay-Regular.otf");
     DegularDisplaySemiB = loadFont("fonts/DegularDisplay-Semibold.otf");
-    DegularText = loadFont("fonts/DegularText-Medium.otf");
 }
 
 //GRID

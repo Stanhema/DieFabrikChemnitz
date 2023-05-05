@@ -14,23 +14,23 @@ body {
 @font-face {
     font-family: "DegularDisplay";
     src: url(/fonts/DegularDisplay-Regular.otf);
-    font-weight: normal;
+    font-weight: 400;
   }
 
 @font-face {
     font-family: "DegularDisplay";
-    src: url(/fonts/DegularDisplay-Semiboldd.otf);
-    font-style: bold;
+    src: url(/fonts/DegularDisplay-Semibold.otf);
+    font-weight: 600;
  }
   
 /* Navigation */
   
 .navElement {
-    font-family: "Degular", arial, sans-serif;;
-    font-weight: bold;
+    font-family: "DegularDisplay", arial, sans-serif;;
+    font-weight: 600;
     font-size: 25px;
     margin-left: 5px;
-    padding: 3px 25px 6px 25px;
+    padding: 7px 25px 10px 25px;
     border-style: solid;
     border:  2px solid;
     border-radius: 50px;
