@@ -123,7 +123,7 @@ function draw() {
   }
 
   stroke(0);
-  strokeWeight(3);
+  strokeWeight(2);
   blendMode(BLEND);
 
   let point0 = createVector(myMouseX, myMouseY);
