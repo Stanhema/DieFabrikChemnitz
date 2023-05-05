@@ -13,13 +13,13 @@ body {
 
 @font-face {
     font-family: "DegularDisplay";
-    src: url(/fonts/DegularDisplay-Regular.otf);
+    src: url(./fonts/DegularDisplay-Regular.otf);
     font-weight: 400;
   }
 
 @font-face {
     font-family: "DegularDisplay";
-    src: url(/fonts/DegularDisplay-Semibold.otf);
+    src: url(./fonts/DegularDisplay-Semibold.otf);
     font-weight: 600;
  }
   
