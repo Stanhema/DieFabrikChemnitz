@@ -1,14 +1,15 @@
 :root {
     --myMouseY: 100px;
     --myMouseX: 100px;
-
     --dfcGreen: #A4FFA3;
-  }
+}
 
 body {
     margin: 0;
-    font-family: "DegularDisplay";
+    font-family: "DegularDisplay", verdana, sans-serif;
     font-weight: normal;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
 @font-face {
@@ -26,19 +27,20 @@ body {
 /* Navigation */
   
 .navElement {
-    font-family: "DegularDisplay", arial, sans-serif;;
+    font-family: "DegularDisplay", verdana, sans-serif;
     font-weight: 600;
-    font-size: 25px;
+    font-size: 22px;
+    line-height: 95%;
     margin-left: 5px;
-    padding: 7px 25px 10px 25px;
-    border-style: solid;
-    border:  2px solid;
+    padding: 6px 19px 10px 19px;
+    border:  1px solid;
     border-radius: 50px;
   }
 
 /* Keyvisual */
 
 .cta-Button {
+    font-family: "DegularDisplay", verdana, sans-serif;
     display: flex;
     align-items: center;
     justify-content: start;
@@ -61,17 +63,20 @@ body {
 }
 
 .roundStyle {
-    font-family: Degular;
-    font-size: 30px;
+    font-family: "DegularDisplay", verdana, sans-serif;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 90%;
     margin: 0;
-    margin-left: 10px;
-    padding: 5px 20px;
+    margin-left: 5px;
+    padding: 12px 39px 19px 39px;
     border-radius: 50px;
     border: none;
+    white-space: nowrap;
 }
 
 .border {
-    border:  2px solid;
+    border:  1px solid;
 }
 
 .label {    
@@ -83,10 +88,52 @@ body {
 }
 
 .joinButton {
-    font-family: "Degular", arial, sans-serif;;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 90%;
+    padding: 12px 39px 19px 39px;
     display: none; 
     color: black;
-    padding: 3px 25px 6px 25px;
     background-color: var(--dfcGreen);
+    border: 1px solid var(--dfcGreen);
+    transition: all .2s ease-out;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.joinButton:hover {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
+
+#keyvis__close {
+    cursor: pointer;
+    background-image: url('img/PLUS.svg');
+    background-size: cover;
+    width: 65px;
+    height: 65px;
+    transform: rotate(45deg);
+    transition: transform .4s;
+}
+
+#keyvis__close:hover {
+    transform: scale(0.9) rotate(45deg);
+}
+
+.switch-to-left {
+    position: absolute;
+    left: 0;
+    transform: translate( calc( -100% - 10px ) );
+}
+
+#canvas-container {
+    max-width: 100vw;
+    overflow: hidden;
+}
+
+#memberships {
+    font-size: 2rem;
+    background-color: #A4FFA3;
+    padding: 3rem;
 }
