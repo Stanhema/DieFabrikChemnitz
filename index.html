@@ -1,25 +1,20 @@
 <!DOCTYPE html>
 <html>
-
     <head>
-
         <link rel="stylesheet" href="style.css">
         <title>Die Farbik Chemnitz</title>
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/dfc_favicon.png">
-        
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- P5js Lib -->
         <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
-        
     </head>
 
-<body style="overflow: hidden">
-   
+<body>
      <!--Navigation-->
-     <div style="width: 100vw; position: absolute; top: 0px; left: 0px;">
+     <div style="width: 100%; position: absolute; top: 0px; left: 0px;">
         <div style="display: flex; justify-content: space-between; padding: 10px">
-            <img style="height: 60px" src="img/DFC_Wortmarke_Black.png">
+            <img style="height: 62px" src="img/DFC_Wortmarke_Black.png">
             <div style="display: flex; align-items: center;">
-                
                 <a class="navElement">die fabrik</a>
                 <a class="navElement">memberships</a>
                 <a class="navElement">events</a>
@@ -28,23 +23,25 @@
         </div>
     </div>  
    
-    <!--Keyvisual-->
-    <div id="canvas-container"> 
-        <script src="js/keyvisual.js"></script>
-    </div>
+    <!-- Keyvisual output here -->
+    <div id="canvas-container"></div>
 
     <!--CTA Button-->
     <div class="cta-Button">
         <button id="toggle" class="toggle" style="display: flex; align-items: center;" onclick="myFunction()">
-            <img id="plus" style="display: block" width="60px" height="60px" src="img/PLUS.svg">
-            <img id="face" style="display: none" width="60px" height="60px" src="img/FACE.svg">
+            <img id="plus" style="display: block" width="65px" height="65px" src="img/PLUS.svg">
+            <div id="keyvis__close" style="display: none"></div>
         </button>
-        <p id="label" class="label roundStyle border">be part of it!</p>
-        
-        <input id="myInput" class="input roundStyle border" style="display: none" placeholder="what's your name?">
-        <button id="joinButton" class="joinButton roundStyle border" onclick="location.href='membership.html';">join</button>
+        <p id="label" class="label roundStyle border">join us!</p>
+        <a id="joinButton" class="joinButton roundStyle border" href="#memberships">member werden</a>
     </div>
 
+    <section id="memberships">
+        <h2>memberschips</h2>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    </section>
 
+    <!-- P5js Sketch -->
+    <script src="js/keyvisual.js"></script>
 </body>
 </html>
