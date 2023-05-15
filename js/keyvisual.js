@@ -31,7 +31,9 @@ const names = ['Ben', 'Leon', 'Lena', 'Emilia', 'Elias', 'Finn', 'Maximilian', '
 let currentName = "";
 let currentPosition;
 
-let attributes = ["be", "work", "meet", "create", "chill"];
+let attributes = ["be", "meet", "connect", "work", "network", "relax", "create", "live", "focus"];
+
+
 let currentAttribute = "be";
 
 //POINTS
@@ -42,7 +44,10 @@ let targetY = [];
 
 function setup() {
 
-  createCanvas(windowWidth, windowHeight);
+
+  var canvas = createCanvas(windowWidth-10, windowHeight);
+  canvas.parent('canvas-container');
+  canvas.style('display', 'block');
   frameRate(60);
 
   //Start position of mouse should be in the center
@@ -52,7 +57,7 @@ function setup() {
   gridMarginX = 20; 
   gridMarginTop = 80;
   gridMarginBottom = 20;
-  segmentSizeX = (windowWidth-gridMarginX)/segments;
+  segmentSizeX = (windowWidth-10-gridMarginX)/segments;
   segmentSizeY = (windowHeight-gridMarginTop-gridMarginBottom)/segments;
 
   gridWidth = floor((width-gridMarginX) / segmentSizeX) +1; //8
@@ -99,7 +104,15 @@ function draw() {
     // otherwise, update the previous position to the current position
     myMouseX = mouseX;
     myMouseY = mouseY;
-  }   
+  }
+
+  if (mouseX + 370 > windowWidth-10 ) {
+    label.classList.add("switch-to-left");
+    joinButton.classList.add("switch-to-left");
+  } else {
+    label.classList.remove("switch-to-left");
+    joinButton.classList.remove("switch-to-left");
+  }
   
   //Grid Helper
   stroke(0);
@@ -348,16 +361,16 @@ function draw() {
   }
 
   noStroke();
-  textSize(20); 
+  textSize(32); 
   textAlign(LEFT, TOP)
 
-  
+  // NAMES
   text(currentName, pointX[currentPosition] + 5, pointY[currentPosition]);
 
   textSize(windowWidth*windowHeight/5500);
   textFont(DegularDisplay);
   textAlign(RIGHT, BOTTOM)
-  text("place to", width*0.98, height-windowWidth/9);
+  text("place to", width*0.98, height-textAscent()*0.8);
   text(currentAttribute, width*0.98, height);
 
   //MOUSE POSITION FOR CTA POSITION IN HTML/CSS
@@ -367,41 +380,32 @@ function draw() {
 }
 
 function myFunction() { 
-
-  const rotated = document.getElementById("plus");
+  const label = document.getElementById("label");
+  const joinButton = document.getElementById("joinButton");
+  const plus = document.getElementById("plus");
+  const close = document.getElementById("keyvis__close");
 
   if (clicked == false) { 
     clicked = true;
-
-    document.getElementById("label").style.display =  "none";  
-    document.getElementById("myInput").style.display =  "block";  
-    document.getElementById("joinButton").style.display =  "block";  
-    document.getElementById("plus").style.display =  "none";  
-    document.getElementById("face").style.display =  "block";  
-    
-    
-    //rotated.style.transform = 'rotate(45deg)';
-    
+    label.style.display =  "none";  
+    joinButton.style.display =  "block";  
+    plus.style.display =  "none";  
+    close.style.display =  "block";
+    currentName = ""; // hide name
     noLoop();  
-
   } else {
     clicked = false;
-
-    document.getElementById("label").style.display =  "block";  
-    document.getElementById("myInput").style.display =  "none";   
-    document.getElementById("joinButton").style.display =  "none"; 
-    document.getElementById("plus").style.display =  "block";  
-    document.getElementById("face").style.display =  "none";  
-
-    //rotated.style.transform = 'rotate(90deg)';
-
+    label.style.display =  "block";  
+    joinButton.style.display =  "none"; 
+    plus.style.display =  "block";  
+    close.style.display =  "none";  
     loop();
     }
 }
 
 function windowResized(){
-  resizeCanvas(windowWidth, windowHeight);
-  segmentSizeX = (windowWidth-gridMarginX)/segments;
+  resizeCanvas(windowWidth-10, windowHeight);
+  segmentSizeX = (windowWidth-10-gridMarginX)/segments;
   segmentSizeY = (windowHeight-gridMarginTop-gridMarginBottom)/segments;
 }
 
