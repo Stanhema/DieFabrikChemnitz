@@ -58,7 +58,6 @@ body {
     background: none;
     outline: inherit;
     border: none;
-    color: white;
     cursor: none;
 }
 
@@ -136,4 +135,23 @@ body {
     font-size: 2rem;
     background-color: #A4FFA3;
     padding: 3rem;
+}
+
+@media only screen and (max-width: 1000px) {
+    .roundStyle {
+        font-size: 26px;
+        padding: 5px 15px 9px 15px;
+
+    }
+
+    .joinButton {
+        font-size: 26px;
+        padding: 5px 15px 9px 15px;
+    }
+
+    #keyvis__close,
+    #plus {
+        width: 39px;
+        height: 39px;
+    }
 }
