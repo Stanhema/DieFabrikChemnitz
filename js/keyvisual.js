@@ -27,12 +27,12 @@ let myMouseX;
 let myMouseY;
 
 //NAMES
-const names = ['Ben', 'Leon', 'Lena', 'Emilia', 'Elias', 'Finn', 'Maximilian', 'Marie', 'Sophie', 'Johannes', 'Julian', 'Felix', 'Luisa', 'Anna', 'Emma', 'Hannah', 'Lea', 'Nina', 'Tobias', 'Laura', 'Paula', 'Paul', 'Alexander', 'Moritz', 'David', 'Jonas', 'Jakob', 'Matthias', 'Sarah', 'Natalie', 'Helen', 'Jana', 'Maria', 'Lisa', 'Jasmin', 'Diana', 'Katrin', 'Claudia', 'Tanja', 'Dominik', 'Kevin', 'Jan', 'Michael', 'Florian', 'Bastian', 'Christoph', 'Sebastian', 'Stefan', 'Markus'];
+const names = ['Malte', 'Frank', 'Gerd', 'Otto', 'Alicia', 'Nadine', 'Helene', 'Pauline', 'Anni', 'Marco', 'Nico', 'Daniel', 'Johannes', 'Alex', 'Ben', 'Ronny', 'Manuela', 'Sascha', 'Marc', 'Markus'];
+
 let currentName = "";
 let currentPosition;
 
-let attributes = ["be", "meet", "connect", "work", "network", "relax", "create", "live", "focus"];
-
+let attributes = ["be", "meet", "connect", "work", "network", "relax", "create", "live", "focus", "hang out", "workout", "experience", "celebrate", "be" ];
 
 let currentAttribute = "be";
 
@@ -106,7 +106,18 @@ function draw() {
     myMouseY = mouseY;
   }
 
-  if (mouseX + 370 > windowWidth-10 ) {
+  // Switch Label and Button to the left to prevent overflow
+  let joinWidth = joinButton.offsetWidth;
+  let labelWidth = label.offsetWidth;
+  let ctaWidth;
+
+  if (joinWidth < labelWidth) {
+    ctaWidth = labelWidth + plus.offsetWidth;
+  } else {
+    ctaWidth = joinWidth + plus.offsetWidth;
+  }
+
+  if (mouseX + ctaWidth > windowWidth-10 ) {
     label.classList.add("switch-to-left");
     joinButton.classList.add("switch-to-left");
   } else {
