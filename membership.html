@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html>
-
     <head>
-
         <link rel="stylesheet" href="style.css">
         <title>Die Farbik Chemnitz</title>
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/dfc_favicon.png">
-        
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- P5js Lib -->
         <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
-        
+        <script src="js/matter.js"></script>
     </head>
 
-<body style="overflow: hidden">
-   
+<body>
      <!--Navigation-->
-     <div style="width: 100vw; position: absolute; top: 0px; left: 0px;">
+     <div style="width: 100%; position: absolute; top: 0px; left: 0px;">
         <div style="display: flex; justify-content: space-between; padding: 10px">
-            <a href="./index.html"><img style="height: 60px" src="img/DFC_Wortmarke_Black.png"></a>
+            <a href="index.html"><img style="height: 62px" src="img/DFC_Wortmarke_Black.png"></a>
             <div style="display: flex; align-items: center;">
-                
                 <a class="navElement">die fabrik</a>
-                <a class="navElement">membership</a>
+                <a class="navElement" href="membership.html">memberships</a>
                 <a class="navElement">events</a>
                 <a class="navElement">team</a>
             </div>
         </div>
     </div>  
+
+    <div id="canvas-container"></div>
+
+    <div style="position:absolute; top: 0; left: 10px; font-size: 200px; width: 80%; line-height: 0.8;"><p>Yeah, du bist dabei!</p></div>
+
+    <section id="danke">
+      <h2>Danke für Deine Anmeldung!</h2>
+      Schön, dass wir Dich schon jetzt in unserer Community begrüßen dürfen. Wir haben Dir eine E-Mail geschickt. Bitte bestätige deine Anmeldung mit einem Klick auf den Link in Deiner Mail.  
+    </section>
    
-    <!--Keyvisual-->
-    <div style="font-size: 300px; margin-left: 20px"> 
-        Welcome!
-    </div>
+    <!-- P5js Sketch -->
+    <script src="js/keyvisual_membership.js"></script>
+    <script src="js/circle.js"></script>
+    <script src="js/boundary.js"></script>
 </body>
 </html>

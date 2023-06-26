@@ -26,6 +26,8 @@ let superSpeed = 0.4;
 let myMouseX;
 let myMouseY;
 
+let jsonData;
+
 //NAMES
 const names = ['Malte', 'Frank', 'Gerd', 'Otto', 'Alicia', 'Nadine', 'Helene', 'Pauline', 'Anni', 'Marco', 'Nico', 'Daniel', 'Johannes', 'Alex', 'Ben', 'Ronny', 'Manuela', 'Sascha', 'Marc', 'Markus'];
 
@@ -78,6 +80,8 @@ function setup() {
   pointY[6] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY;
   pointX[7] = floor(random(gridWidth/segments*3)) * segmentSizeX;
   pointY[7] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY;
+
+
 
   for (i = 1; i < 8; i++) {
     
@@ -404,6 +408,13 @@ function myFunction() {
     close.style.display =  "block";
     currentName = ""; // hide name
     noLoop();  
+    
+
+    var r = document.querySelector(':root');
+    r.style.setProperty('--point1X', (pointX[1]));
+    r.style.setProperty('--point1Y', (pointY[1]));
+
+
   } else {
     clicked = false;
     label.style.display =  "block";  

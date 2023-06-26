@@ -137,6 +137,12 @@ body {
     padding: 3rem;
 }
 
+#danke {
+    font-size: 2rem;
+    background-color: #ffffff;
+    padding: 3rem;
+}
+
 @media only screen and (max-width: 1000px) {
     .roundStyle {
         font-size: 26px;
