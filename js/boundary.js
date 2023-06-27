@@ -22,5 +22,4 @@ class Boundary {
     }
 
     show() {line(this.point1.x, this.point1.y, this.point2.x, this.point2.y); }
-
   }
