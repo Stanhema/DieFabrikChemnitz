@@ -15,7 +15,7 @@ class Boundary {
       const centerX = (this.point1.x + this.point2.x) / 2;
       const centerY = (this.point1.y + this.point2.y) / 2;
   
-      return Bodies.rectangle(centerX, centerY, length, 10, {
+      return Bodies.rectangle(centerX, centerY, length, 15, {
         isStatic: true,
         angle: angle,
       });

@@ -18,8 +18,8 @@ let intersected2 = false;
 let intersected3 = false;
 let intersected4 = false;
 let intersected5 = false;
-let intersected6 = false;
 let intersected7 = false;
+let intersected8 = false;
 let moveSpeed = 0.2;
 let slowSpeed = 0.02;
 let superSpeed = 0.4;
@@ -76,14 +76,18 @@ function setup() {
   pointY[4] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY;
   pointX[5] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX;
   pointY[5] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY;
-  pointX[6] = floor(random(gridWidth/segments*3)) * segmentSizeX;
-  pointY[6] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY;
+
+  pointX[6] = myMouseX;
+  pointY[6] = myMouseY;
+
   pointX[7] = floor(random(gridWidth/segments*3)) * segmentSizeX;
-  pointY[7] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY;
+  pointY[7] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY;
+  pointX[8] = floor(random(gridWidth/segments*3)) * segmentSizeX;
+  pointY[8] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY;
 
 
 
-  for (i = 1; i < 8; i++) {
+  for (i = 1; i < 9; i++) {
     
     targetX[i] = pointX[i];
     targetY[i] = pointY[i];
@@ -109,6 +113,9 @@ function draw() {
     myMouseX = mouseX;
     myMouseY = mouseY;
   }
+
+  pointX[6] = myMouseX;
+  pointY[6] = myMouseY;
 
   // Switch Label and Button to the left to prevent overflow
   let joinWidth = joinButton.offsetWidth;
@@ -154,15 +161,18 @@ function draw() {
   strokeWeight(2);
   blendMode(BLEND);
 
-  let point0 = createVector(myMouseX, myMouseY);
+  
 
   let point1 = createVector(pointX[1], pointY[1]);
   let point2 = createVector(pointX[2], pointY[2]);
   let point3 = createVector(pointX[3], pointY[3]);
   let point4 = createVector(pointX[4], pointY[4]);
-  let point5 = createVector(pointX[5], pointY[5]);
+
   let point6 = createVector(pointX[6], pointY[6]);
+
+  let point5 = createVector(pointX[5], pointY[5]);
   let point7 = createVector(pointX[7], pointY[7]);
+  let point8 = createVector(pointX[8], pointY[8]);
 
   //ANIMATION AND INTERSECTION WITH MOUSE - LOGIC
 
@@ -170,7 +180,7 @@ function draw() {
     targetX[1] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
     targetY[1] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
   } else {
-    if (intersected1 == true || intersected7 == true){
+    if (intersected1 == true || intersected8 == true){
       moveSpeed = superSpeed;
     } else {
       moveSpeed = slowSpeed;
@@ -231,24 +241,11 @@ function draw() {
     pointY[5] += (targetY[5] - pointY[5]) * moveSpeed;
   }
 
-  if (dist(pointX[6], pointY[6], targetX[6], targetY[6]) < 1) {
-    targetX[6] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
-    targetY[6] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY + gridMarginTop;
-  }  else {
-    if (intersected6 == true){
-      moveSpeed = superSpeed;
-    } else {
-      moveSpeed = slowSpeed;
-    }
-    pointX[6] += (targetX[6] - pointX[6]) * moveSpeed;
-    pointY[6] += (targetY[6] - pointY[6]) * moveSpeed;
-  }
-
   if (dist(pointX[7], pointY[7], targetX[7], targetY[7]) < 1) {
     targetX[7] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
-    targetY[7] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY + gridMarginTop;
-  } else {
-    if (intersected7 == true || intersected6 == true){
+    targetY[7] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY + gridMarginTop;
+  }  else {
+    if (intersected7 == true){
       moveSpeed = superSpeed;
     } else {
       moveSpeed = slowSpeed;
@@ -257,9 +254,22 @@ function draw() {
     pointY[7] += (targetY[7] - pointY[7]) * moveSpeed;
   }
 
+  if (dist(pointX[8], pointY[8], targetX[8], targetY[8]) < 1) {
+    targetX[8] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
+    targetY[8] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY + gridMarginTop;
+  } else {
+    if (intersected8 == true || intersected7 == true){
+      moveSpeed = superSpeed;
+    } else {
+      moveSpeed = slowSpeed;
+    }
+    pointX[8] += (targetX[8] - pointX[8]) * moveSpeed;
+    pointY[8] += (targetY[8] - pointY[8]) * moveSpeed;
+  }
+
   //INTERSECTION LOGIC
 
-  if (intersect(point0, point6, point1, point2) || intersect(point0, point5, point1, point2)) {
+  if (intersect(point6, point7, point1, point2) || intersect(point6, point5, point1, point2)) {
     intersected1 = true;
     targetY[1] = floor(random(myMouseY/segmentSizeY)) * segmentSizeY + gridMarginTop;
     targetY[2] = floor(random(myMouseY/segmentSizeY)) * segmentSizeY + gridMarginTop;
@@ -267,7 +277,7 @@ function draw() {
     intersected1 = false;
   }
 
-  if (intersect(point0, point6, point2, point3) || intersect(point0, point5, point2, point3)) {
+  if (intersect(point6, point7, point2, point3) || intersect(point6, point5, point2, point3)) {
     intersected2 = true;
     targetY[2] = floor(random(myMouseY/segmentSizeY)) * segmentSizeY + gridMarginTop;
     targetY[3] = floor(random(myMouseY/segmentSizeY)) * segmentSizeY + gridMarginTop;
@@ -275,7 +285,7 @@ function draw() {
     intersected2 = false;
   }
 
-  if (intersect(point0, point6, point3, point4) || intersect(point0, point5, point3, point4)) {
+  if (intersect(point6, point7, point3, point4) || intersect(point6, point5, point3, point4)) {
     intersected3 = true;
     targetX[3] = width-20;
     targetY[3] = 80;
@@ -284,7 +294,7 @@ function draw() {
     intersected3 = false;
   }
 
-  if (intersect(point0, point6, point4, point5)) {
+  if (intersect(point6, point7, point4, point5)) {
     intersected4 = true;
     targetX[4] = width-20;
     
@@ -295,7 +305,7 @@ function draw() {
     intersected4 = false;
   }
 
-  if (intersect(point0, point6, point4, point5)) {
+  if (intersect(point6, point7, point4, point5)) {
     intersected5 = true;
     targetX[4] = width-20;
     
@@ -306,25 +316,25 @@ function draw() {
     intersected5 = false;
   }
 
-  if (intersect(point0, point5, point6, point7)) {
-    intersected6 = true;
-    targetX[6] = 20;
-    targetY[6] = height-20;
-    
+  if (intersect(point6, point5, point7, point8)) {
+    intersected7 = true;
     targetX[7] = 20;
+    targetY[7] = height-20;
+    
+    targetX[8] = 20;
   } else {
-    intersected6 = false;
+    intersected7 = false;
   }
 
 
-  if (intersect(point0, point6, point7, point1) || intersect(point0, point5, point7, point1)) {
-    intersected7 = true;
-    targetX[7] = 20;
+  if (intersect(point6, point7, point8, point1) || intersect(point6, point5, point8, point1)) {
+    intersected8 = true;
+    targetX[8] = 20;
     
     targetX[1] = 20;
     targetY[1] = 80;
   } else {
-    intersected7 = false;
+    intersected8 = false;
   }
   
 
@@ -337,8 +347,8 @@ function draw() {
     vertex(pointX[4], pointY[4]);
     vertex(pointX[5], pointY[5]);
     vertex(myMouseX, myMouseY);
-    vertex(pointX[6], pointY[6]);
     vertex(pointX[7], pointY[7]);
+    vertex(pointX[8], pointY[8]);
   endShape(CLOSE);
 
 
@@ -356,10 +366,10 @@ function draw() {
   //line(pointX[4], pointY[4], pointX[5], pointY[5]);
   
   //stroke("grey");
-  //line(pointX[6], pointY[6], pointX[7], pointY[7]);
+  //line(pointX[7], pointY[7], pointX[8], pointY[8]);
 
   //stroke("orange");
-  //line(pointX[7], pointY[7], pointX[1], pointY[1]);
+  //line(pointX[8], pointY[8], pointX[1], pointY[1]);
     
   
   stroke("black");
@@ -408,12 +418,10 @@ function myFunction() {
     close.style.display =  "block";
     currentName = ""; // hide name
     noLoop();  
-    
 
-    var r = document.querySelector(':root');
-    r.style.setProperty('--point1X', (pointX[1]));
-    r.style.setProperty('--point1Y', (pointY[1]));
-
+    // Save data to sessionStorage      
+    sessionStorage.setItem("pointX", JSON.stringify(pointX));
+    sessionStorage.setItem("pointY", JSON.stringify(pointY));
 
   } else {
     clicked = false;
