@@ -167,10 +167,8 @@ function draw() {
   let point2 = createVector(pointX[2], pointY[2]);
   let point3 = createVector(pointX[3], pointY[3]);
   let point4 = createVector(pointX[4], pointY[4]);
-
-  let point6 = createVector(pointX[6], pointY[6]);
-
   let point5 = createVector(pointX[5], pointY[5]);
+  let point6 = createVector(pointX[6], pointY[6]);
   let point7 = createVector(pointX[7], pointY[7]);
   let point8 = createVector(pointX[8], pointY[8]);
 

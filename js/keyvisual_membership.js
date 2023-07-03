@@ -23,11 +23,11 @@ let mConstraint;
 //POINTS
 let pointX = [];
 let pointY = [];
+
 const point = [];
 
 function setup() {
 
-  
     canvas = createCanvas(windowWidth-10, windowHeight);
     canvas.parent('canvas-container');
     canvas.style('display', 'block');
@@ -47,6 +47,41 @@ function setup() {
 
     pointX = JSON.parse(sessionStorage.getItem("pointX"));
     pointY = JSON.parse(sessionStorage.getItem("pointY"));
+
+    if (pointX == null && pointY == null) {
+
+      // INITIAL POINTS FOR SHAPE
+      pointX = [null, ...Array(8)];
+      pointY = [null, ...Array(8)];
+       //INITIAL POINTS FOR SHAPE
+      pointX[1] = floor(random(gridWidth/segments*3)) * segmentSizeX + gridMarginX/2;
+      pointY[1] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
+      pointX[2] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeX + gridMarginX/2;
+      pointY[2] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
+      pointX[3] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX + gridMarginX/2;
+      pointY[3] = floor(random(gridWidth/segments*3)) * segmentSizeY + gridMarginTop;
+      pointX[4] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX;
+      pointY[4] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY;
+      pointX[5] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX;
+      pointY[5] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY;
+
+      pointX[6] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeX;
+      pointY[6] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY;
+
+      pointX[7] = floor(random(gridWidth/segments*3)) * segmentSizeX;
+      pointY[7] = floor(random(gridWidth/segments*6, gridWidth)) * segmentSizeY;
+      pointX[8] = floor(random(gridWidth/segments*3)) * segmentSizeX;
+      pointY[8] = floor(random(gridWidth/segments*3, gridWidth/segments*6)) * segmentSizeY;
+
+      point[1] = createVector(pointX[1], pointY[1]);
+      point[2] = createVector(pointX[2], pointY[2]);
+      point[3] = createVector(pointX[3], pointY[3]);
+      point[4] = createVector(pointX[4], pointY[4]);
+      point[5] = createVector(pointX[5], pointY[5]);
+      point[6] = createVector(pointX[6], pointY[6]);
+      point[7] = createVector(pointX[7], pointY[7]);
+      point[8] = createVector(pointX[8], pointY[8]);
+    }
 
     for (i = 1; i < 9; i++) {
       point[i] = { x: pointX[i], y: pointY[i] };
