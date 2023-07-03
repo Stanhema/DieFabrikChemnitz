@@ -87,6 +87,8 @@ body {
 
 .headline {
     font-size: 200px;
+    margin: 0px;
+    margin-top: 100px;
 }
 
 .border {
@@ -172,7 +174,7 @@ body {
 
 @media only screen and (max-width: 1000px) {
     :root {    
-        --smileySize: 20px;
+        --smileySize: 30px;
     }
 
     .roundStyle {
@@ -194,16 +196,6 @@ body {
 
     .headline {
         font-size: 100px;
-    }
-
-    .headlineContainer {    
-        position:absolute; 
-        top: auto;
-        bottom: 0; 
-        left: 10px; 
-        width: 80%; 
-        line-height: 0.8; 
-        pointer-events: none;
     }
     
 }

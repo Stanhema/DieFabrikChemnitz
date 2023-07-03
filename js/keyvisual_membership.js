@@ -28,7 +28,7 @@ const point = [];
 
 function setup() {
 
-    canvas = createCanvas(windowWidth-10, windowHeight);
+    canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent('canvas-container');
     canvas.style('display', 'block');
     frameRate(60);
@@ -86,7 +86,7 @@ function setup() {
     for (i = 1; i < 9; i++) {
       point[i] = { x: pointX[i], y: pointY[i] };
     }
-    
+  
     myboundary[1] = new Boundary(point[1], point[2]);
     myboundary[2] = new Boundary(point[2], point[3]);
     myboundary[3] = new Boundary(point[3], point[4]);
@@ -96,40 +96,50 @@ function setup() {
     myboundary[7] = new Boundary(point[7], point[8]);
     myboundary[8] = new Boundary(point[8], point[1]);
 
-    myboundary[8] = new Boundary(mouseX, mouseY);
+    //POINTS FOR FRAME
 
-    for (i = 1; i < 8; i++) {
+    point[9] = createVector(0, 0);
+    point[10] = createVector(width, 0);
+    point[11] = createVector(width, height);
+    point[12] = createVector(0, height);
+
+    myboundary[9] = new Boundary(point[9] , point[10]);
+    myboundary[10] = new Boundary(point[10] , point[11]);
+    myboundary[11] = new Boundary(point[11] , point[12]);
+    myboundary[12] = new Boundary(point[12] , point[9]);
+
+    for (i = 1; i < 12; i++) {
       World.add(world, myboundary[i]);
     }    
 
     explosion();
 
-    const mBoundary = Bodies.rectangle(400, 300, 200, 20, { isStatic: false });
+    let mConstraint;
+
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (!isMobile) {
 
     let canvasMouse = Mouse.create(canvas.elt);
     let options = {
         mouse: canvasMouse,
-        constraint: {
-          stiffness: 0.2,
-          
-        }
     }
 
+    
     canvasMouse.pixelRatio = pixelDensity();
     mConstraint = MouseConstraint.create(engine, options);
-   
-
     mConstraint.mouse.element.removeEventListener("mousewheel", mConstraint.mouse.mousewheel);
     mConstraint.mouse.element.removeEventListener("DOMMouseScroll", mConstraint.mouse.mousewheel);
+    }
 
-    World.add(world, [mBoundary, mConstraint])
+    if (mConstraint) {
+      World.add(world, [mConstraint]);
+    }
     
 }
 
 
 function draw() {   
     background(255);   
-
     noStroke();
     fill("#A4FFA3");
 
@@ -139,18 +149,14 @@ function draw() {
       }
     endShape(CLOSE);
    
-    //Draw the circles
     for (let i = 0; i < circles.length; i++) {
         circles[i].show();
     }    
-
+   
     Engine.update(engine);
-  
 }
 
-let smileySize = getComputedStyle(document.documentElement).getPropertyValue('--smileySize');
-smileySize = parseInt(smileySize, 10); // Convert to an integer 
-console.log(smileySize);
+let smileySize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--smileySize'), 10);
 
 
 function explosion() {
@@ -167,10 +173,11 @@ function explosion() {
   
  
 
-  for (let i = 0; i < 70; i++) {
+  for (let i = 0; i < 80; i++) {
     const x = Math.random() * ((pointX[3]-100) - (pointX[1]+100)) + pointX[1];
     const y = Math.random() * (pointY[4] - pointY[1]) + pointY[1];
     circles.push(new Circle(x, y, smileySize, circleOptions)); 
   }
-}
 
+  
+}
