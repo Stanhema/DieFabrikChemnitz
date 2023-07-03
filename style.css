@@ -2,6 +2,8 @@
     --myMouseY: 100px;
     --myMouseX: 100px;
     --dfcGreen: #A4FFA3;
+
+    --smileySize: 40px;
 }
 
 body {
@@ -72,6 +74,19 @@ body {
     border-radius: 50px;
     border: none;
     white-space: nowrap;
+}
+
+.headlineContainer {    
+    position:absolute; 
+    top: 0; 
+    left: 10px; 
+    width: 80%; 
+    line-height: 0.8; 
+    pointer-events: none;
+}
+
+.headline {
+    font-size: 200px;
 }
 
 .border {
@@ -156,6 +171,10 @@ body {
     }
 
 @media only screen and (max-width: 1000px) {
+    :root {    
+        --smileySize: 25px;
+    }
+
     .roundStyle {
         font-size: 26px;
         padding: 5px 15px 9px 15px;
@@ -172,4 +191,19 @@ body {
         width: 39px;
         height: 39px;
     }
+
+    .headline {
+        font-size: 100px;
+    }
+
+    .headlineContainer {    
+        position:absolute; 
+        top: auto;
+        bottom: 0; 
+        left: 10px; 
+        width: 80%; 
+        line-height: 0.8; 
+        pointer-events: none;
+    }
+    
 }

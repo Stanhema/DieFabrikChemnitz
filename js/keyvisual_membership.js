@@ -104,9 +104,15 @@ function setup() {
 
     explosion();
 
+    const mBoundary = Bodies.rectangle(400, 300, 200, 20, { isStatic: false });
+
     let canvasMouse = Mouse.create(canvas.elt);
     let options = {
         mouse: canvasMouse,
+        constraint: {
+          stiffness: 0.2,
+          
+        }
     }
 
     canvasMouse.pixelRatio = pixelDensity();
@@ -116,7 +122,7 @@ function setup() {
     mConstraint.mouse.element.removeEventListener("mousewheel", mConstraint.mouse.mousewheel);
     mConstraint.mouse.element.removeEventListener("DOMMouseScroll", mConstraint.mouse.mousewheel);
 
-    World.add(world, mConstraint)
+    World.add(world, [mBoundary, mConstraint])
     
 }
 
@@ -142,6 +148,10 @@ function draw() {
   
 }
 
+let smileySize = getComputedStyle(document.documentElement).getPropertyValue('--smileySize');
+smileySize = parseInt(smileySize, 10); // Convert to an integer 
+console.log(smileySize);
+
 
 function explosion() {
 
@@ -154,11 +164,13 @@ function explosion() {
       }
     }
   };  
+  
+ 
 
   for (let i = 0; i < 70; i++) {
     const x = Math.random() * ((pointX[3]-100) - (pointX[1]+100)) + pointX[1];
     const y = Math.random() * (pointY[4] - pointY[1]) + pointY[1];
-    circles.push(new Circle(x, y, 40, circleOptions)); 
+    circles.push(new Circle(x, y, smileySize, circleOptions)); 
   }
 }
 
