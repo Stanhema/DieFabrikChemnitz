@@ -174,7 +174,7 @@ body {
 
 @media only screen and (max-width: 1000px) {
     :root {    
-        --smileySize: 30px;
+        --smileySize: 23px;
     }
 
     .roundStyle {

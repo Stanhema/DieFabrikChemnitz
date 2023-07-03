@@ -118,23 +118,19 @@ function setup() {
 
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (!isMobile) {
-
-    let canvasMouse = Mouse.create(canvas.elt);
-    let options = {
-        mouse: canvasMouse,
-    }
-
-    
-    canvasMouse.pixelRatio = pixelDensity();
-    mConstraint = MouseConstraint.create(engine, options);
-    mConstraint.mouse.element.removeEventListener("mousewheel", mConstraint.mouse.mousewheel);
-    mConstraint.mouse.element.removeEventListener("DOMMouseScroll", mConstraint.mouse.mousewheel);
+      let canvasMouse = Mouse.create(canvas.elt);
+      let options = {
+          mouse: canvasMouse,
+      }
+      canvasMouse.pixelRatio = pixelDensity();
+      mConstraint = MouseConstraint.create(engine, options);
+      mConstraint.mouse.element.removeEventListener("mousewheel", mConstraint.mouse.mousewheel);
+      mConstraint.mouse.element.removeEventListener("DOMMouseScroll", mConstraint.mouse.mousewheel);
     }
 
     if (mConstraint) {
       World.add(world, [mConstraint]);
     }
-    
 }
 
 
@@ -158,7 +154,6 @@ function draw() {
 
 let smileySize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--smileySize'), 10);
 
-
 function explosion() {
 
   const circleOptions = {
@@ -170,14 +165,63 @@ function explosion() {
       }
     }
   };  
-  
- 
 
   for (let i = 0; i < 80; i++) {
     const x = Math.random() * ((pointX[3]-100) - (pointX[1]+100)) + pointX[1];
     const y = Math.random() * (pointY[4] - pointY[1]) + pointY[1];
     circles.push(new Circle(x, y, smileySize, circleOptions)); 
   }
+}
 
-  
+class Boundary {
+  constructor(start, end) {
+    this.point1 = start;
+    this.point2 = end;
+
+    this.body = this.createBody();
+    World.add(world, this.body);
+  }
+
+  createBody() {
+    const dx = this.point2.x - this.point1.x;
+    const dy = this.point2.y - this.point1.y;
+    const length = Math.sqrt(dx * dx + dy * dy);
+    const angle = Math.atan2(dy, dx);
+    const centerX = (this.point1.x + this.point2.x) / 2;
+    const centerY = (this.point1.y + this.point2.y) / 2;
+
+    return Bodies.rectangle(centerX, centerY, length, 15, {
+      isStatic: true,
+      angle: angle,
+    });
+  }
+
+  show() {line(this.point1.x, this.point1.y, this.point2.x, this.point2.y); }
+}
+
+class Circle {
+  constructor(x, y, r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    this.texture = createImg("./img/FACE.png");
+    this.texture.hide(); // Hide the image element
+    let options = {
+      friction: 0,
+      restitution: 0.6,
+    };
+    this.body = Bodies.circle(this.x, this.y, this.r, options);
+    Composite.add(world, this.body);
+  }
+
+  show() {
+    let pos = this.body.position;
+    let angle = this.body.angle;
+    push();
+    translate(pos.x, pos.y);
+    rotate(angle);
+    imageMode(CENTER);
+    image(this.texture, 0, 0, this.r * 3, this.r * 3);
+    pop();
+  }
 }
