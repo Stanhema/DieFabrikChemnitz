@@ -6,7 +6,6 @@ function preload() {
 }
 
 const { Engine, World, Bodies, Composite, Mouse, MouseConstraint } = Matter;
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 let circles = [];
 let myboundary = [];
@@ -20,10 +19,8 @@ let engine;
 let world;
 let canvasmouse;
 let mConstraint;
-let previousMouseY = 0;
-let scrollYOffset = 0;
 
-
+let scrollOffset;
 
 //POINTS
 let pointX = [];
@@ -118,26 +115,46 @@ function setup() {
     }    
 
     explosion();
-   
+
     let mConstraint;
+
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (!isMobile) {
+
+    let canvasMouse = Mouse.create(canvas.elt);
+    let options = {
+        mouse: canvasMouse,
+    }
+
     
-      let canvasMouse = Mouse.create(canvas.elt);
-      let options = {
-          mouse: canvasMouse,
-      }
-      canvasMouse.pixelRatio = pixelDensity();
-      mConstraint = MouseConstraint.create(engine, options);
-      mConstraint.mouse.element.removeEventListener("mousewheel", mConstraint.mouse.mousewheel);
-      mConstraint.mouse.element.removeEventListener("DOMMouseScroll", mConstraint.mouse.mousewheel);
-      
+    canvasMouse.pixelRatio = pixelDensity();
+    mConstraint = MouseConstraint.create(engine, options);
+    mConstraint.mouse.element.removeEventListener("mousewheel", mConstraint.mouse.mousewheel);
+    mConstraint.mouse.element.removeEventListener("DOMMouseScroll", mConstraint.mouse.mousewheel);
+    }
 
     if (mConstraint) {
       World.add(world, [mConstraint]);
     }
+
+    // Create the initial boundary
+  const initialBoundaryPoint1 = createVector(width / 2, height / 2);
+  const initialBoundaryPoint2 = createVector(width / 3, height / 2);
+  myboundaryy = new Boundaryy(initialBoundaryPoint1, initialBoundaryPoint2);
+  World.add(world, myboundaryy);
+
+  // Initialize scroll offset
+  scrollOffset = window.scrollY;
+    
 }
 
 
 function draw() {   
+
+    // Update the scroll offset based on the window scroll position
+    scrollOffset = window.scrollY;
+    console.log(scrollOffset);
+
     background(255);   
     noStroke();
     fill("#A4FFA3");
@@ -148,32 +165,27 @@ function draw() {
       }
     endShape(CLOSE);
    
-   for (let i = 0; i < circles.length; i++) {
+    for (let i = 0; i < circles.length; i++) {
         circles[i].show();
-    }   
-   
-    let isMouseOverCircle = false;
-  circles.forEach((circle) => {
-    if (dist(mouseX, mouseY, circle.x, circle.y) <= circle.r) {
-      isMouseOverCircle = true;
-      return;
-    }
-  });
+    }    
+    
+    fill("black");
+    // Update the scroll offset based on the window scroll position
+    scrollOffset = window.scrollY;
 
-  // Implement scrolling logic for white space
-  if (!isMouseOverCircle && isMobile && touches.length === 0) {
-    // Perform scrolling action here
-    console.log("not holding");
-    const deltaY = mouseY - previousMouseY;
-    scrollYOffset -= deltaY;
-    window.scrollBy(0, deltaY);
-  }
+    // Move the boundary circle to the new position
+    const newBoundaryPoint1 = createVector(width / 2, height / 2 + scrollOffset);
+    const newBoundaryPoint2 = createVector(width / 3, height / 2 + scrollOffset);
+    myboundaryy.update(newBoundaryPoint1, newBoundaryPoint2);
 
+    // Draw the boundary
+    myboundaryy.show();
 
     Engine.update(engine);
 }
 
 let smileySize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--smileySize'), 10);
+
 
 function explosion() {
 
@@ -186,10 +198,54 @@ function explosion() {
       }
     }
   };  
-
+  
   for (let i = 0; i < 80; i++) {
     const x = Math.random() * ((pointX[3]-100) - (pointX[1]+100)) + pointX[1];
     const y = Math.random() * (pointY[4] - pointY[1]) + pointY[1];
     circles.push(new Circle(x, y, smileySize, circleOptions)); 
+  }
+
+}
+
+class Boundaryy {
+  constructor(start, end) {
+    this.point1 = start;
+    this.point2 = end;
+
+    this.body = this.createBody();
+    World.add(world, this.body);
+  }
+
+  update(pointA, pointB) {
+    this.body.position.x = (pointA.x + pointB.x) / 2;
+    this.body.position.y = (pointA.y + pointB.y) / 2;
+    this.body.width = p5.Vector.dist(pointA, pointB);
+  }
+
+  createBody() {
+    const dx = this.point2.x - this.point1.x;
+    const dy = this.point2.y - this.point1.y;
+    const length = Math.sqrt(dx * dx + dy * dy);
+    const angle = Math.atan2(dy, dx);
+    const centerX = (this.point1.x + this.point2.x) / 2;
+    const centerY = (this.point1.y + this.point2.y) / 2;
+
+    return Bodies.rectangle(centerX, centerY, length, 15, {
+      isStatic: true,
+      angle: angle,
+    });
+  }
+
+ 
+
+  show() {
+    const pos = this.body.position;
+    const angle = this.body.angle;
+    push();
+    translate(pos.x, pos.y);
+    rotate(angle);
+    rectMode(CENTER);
+    rect(0, 0, this.body.width, 10);
+    pop();
   }
 }
